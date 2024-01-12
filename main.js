@@ -40,13 +40,22 @@ function setPiece() {
   if (r < 0) {
     return;
   }
+
+   var playerRedColor = document.getElementById("playerRedColor").value;
+  var playerYellowColor = document.getElementById("playerYellowColor").value;
+
+  if (playerRedColor === playerYellowColor) {
+    alert("The pieces can't have the same color!");
+    return;
+  }
+
   board[r][c] = currentPlayer;
   let tile = document.getElementById(r.toString() + "-" + c.toString());
   if (currentPlayer === playerRed) {
-    tile.classList.add("red-piece");
+    tile.style.backgroundColor= playerRedColor;
     currentPlayer = playerYellow;
   } else {
-    tile.classList.add("yellow-piece");
+    tile.style.backgroundColor = playerYellowColor;
     currentPlayer = playerRed;
   }
   r -= 1;
