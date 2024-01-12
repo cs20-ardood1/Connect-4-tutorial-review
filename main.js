@@ -7,6 +7,8 @@ let board;
 let rows = 6;
 let columns = 7;
 let currColumns;
+let playerRedScore = 0;
+let playerYellowScore = 0;
 
 window.onload = function () {
   setGame();
@@ -133,12 +135,17 @@ function checkWinner() {
 }
 
 function setWinner(r, c) {
+  gameover = true;
   let winner = document.getElementById("winner");
   if (board[r][c] === playerRed) {
+    playerRedScore++;
+    document.getElementById("playerRedScore").innerHTML =
+      "Player Red Score: " + playerRedScore;
     winner.innerHTML = "Red Wins";
   } else {
+    playerYellowScore++;
+    document.getElementById("playerYellowScore").innerHTML =
+      "Player Yellow Score: " + playerYellowScore;
     winner.innerHTML = "Yellow Wins";
   }
-  gameover = true;
-  
 }
