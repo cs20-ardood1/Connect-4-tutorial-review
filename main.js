@@ -41,7 +41,7 @@ function setPiece() {
     return;
   }
 
-   var playerRedColor = document.getElementById("playerRedColor").value;
+  var playerRedColor = document.getElementById("playerRedColor").value;
   var playerYellowColor = document.getElementById("playerYellowColor").value;
 
   if (playerRedColor === playerYellowColor) {
