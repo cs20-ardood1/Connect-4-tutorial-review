@@ -1,3 +1,4 @@
+// GLOBAL VARIABLES
 let playerRed = "R";
 let playerYellow = "Y";
 let currentPlayer = playerRed;
@@ -13,16 +14,18 @@ window.onload = function () {
 };
 
 function setGame() {
-  board = [];
+  board = [];// board array
   currColumns = [5, 5, 5, 5, 5, 5, 5];
   for (let r = 0; r < rows; r++) {
     let row = [];
     for (let c = 0; c < columns; c++) {
       row.push(" ");
+      // div
       let tile = document.createElement("div");
       tile.id = r.toString() + "-" + c.toString();
       tile.classList.add("tile");
       tile.addEventListener("click", setPiece);
+      //append the div within the html instead of doing it manually 42 times
       document.getElementById("board").append(tile);
     }
     board.push(row);
@@ -33,7 +36,7 @@ function setPiece() {
   if (gameover) {
     return;
   }
-  let coords = this.id.split("-");
+  let coords = this.id.split("-");//coordinates of tile clicked
   let r = parseInt(coords[0]);
   let c = parseInt(coords[1]);
   r = currColumns[c];
@@ -41,10 +44,11 @@ function setPiece() {
     return;
   }
 
-  var playerRedColor = document.getElementById("playerRedColor").value;
-  var playerYellowColor = document.getElementById("playerYellowColor").value;
+  let playerRedColor = document.getElementById("playerRedColor").value;
+  let playerYellowColor = document.getElementById("playerYellowColor").value;
 
   if (playerRedColor === playerYellowColor) {
+    //Pieces cant be the same color
     alert("The pieces can't have the same color!");
     return;
   }
@@ -64,7 +68,7 @@ function setPiece() {
 }
 
 function checkWinner() {
-  //horizontally
+  //check 4 in a row horizontally
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < columns - 3; c++) {
       if (board[r][c] != " ") {
@@ -80,7 +84,7 @@ function checkWinner() {
     }
   }
 
-  //vertically
+  //check 4 in a row vertically
   for (let c = 0; c < columns; c++) {
     for (let r = 0; r < rows - 3; r++) {
       if (board[r][c] != " ") {
@@ -95,7 +99,7 @@ function checkWinner() {
       }
     }
   }
-  //anti diagonally
+  //check 4 in a row anti diagonally
   for (let r = 0; r < rows - 3; r++) {
     for (let c = 0; c < columns - 3; c++) {
       if (board[r][c] != " ") {
@@ -111,7 +115,7 @@ function checkWinner() {
     }
   }
 
-  //diagonally
+  //check 4 in a row diagonally
   for (let r = 3; r < rows3; r++) {
     for (let c = 0; c < columns - 3; c++) {
       if (board[r][c] != " ") {
