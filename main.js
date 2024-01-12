@@ -9,7 +9,7 @@ let currColumns;
 
 window.onload = function () {
   setGame();
-  location.realod()
+  // location.realod()
 };
 
 function setGame() {
