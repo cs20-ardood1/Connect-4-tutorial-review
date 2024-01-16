@@ -1,4 +1,5 @@
 // GLOBAL VARIABLES
+
 let playerRed = "R";
 let playerYellow = "Y";
 let currentPlayer = playerRed;
@@ -12,11 +13,11 @@ let playerYellowScore = 0;
 
 window.onload = function () {
   setGame();
-  // location.realod()
+  document.getElementById("btn").addEventListener("click", replayGame);
 };
 
 function setGame() {
-  board = [];// board array
+  board = []; // board array
   currColumns = [5, 5, 5, 5, 5, 5, 5];
   for (let r = 0; r < rows; r++) {
     let row = [];
@@ -38,7 +39,8 @@ function setPiece() {
   if (gameover) {
     return;
   }
-  let coords = this.id.split("-");//coordinates of tile clicked
+
+  let coords = this.id.split("-"); //coordinates of tile clicked
   let r = parseInt(coords[0]);
   let c = parseInt(coords[1]);
   r = currColumns[c];
@@ -48,22 +50,21 @@ function setPiece() {
 
   let playerRedColor = document.getElementById("playerRedColor").value;
   let playerYellowColor = document.getElementById("playerYellowColor").value;
-
   if (playerRedColor === playerYellowColor) {
     //Pieces cant be the same color
-    alert("The pieces can't have the same color!");
-    return;
+    alert("The pieces can't have the same color");
   }
 
   board[r][c] = currentPlayer;
   let tile = document.getElementById(r.toString() + "-" + c.toString());
   if (currentPlayer === playerRed) {
-    tile.style.backgroundColor= playerRedColor;
+    tile.style.backgroundColor = playerRedColor;
     currentPlayer = playerYellow;
   } else {
     tile.style.backgroundColor = playerYellowColor;
     currentPlayer = playerRed;
   }
+
   r -= 1;
   currColumns[c] = r;
   checkWinner();
@@ -118,7 +119,7 @@ function checkWinner() {
   }
 
   //check 4 in a row diagonally
-  for (let r = 3; r < rows3; r++) {
+  for (let r = 3; r < rows; r++) {
     for (let c = 0; c < columns - 3; c++) {
       if (board[r][c] != " ") {
         if (
@@ -132,11 +133,35 @@ function checkWinner() {
       }
     }
   }
+
+  // Check for a tie
+  let isTie = true;
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < columns; c++) {
+      if (board[r][c] === " ") {
+        isTie = false;
+        break;
+      }
+    }
+    if (!isTie) {
+      break;
+    }
+  }
+
+  if (isTie) {
+    gameover = true;
+    let winner = document.getElementById("winner");
+    winner.innerHTML = "It's a Tie";
+  }
 }
 
 function setWinner(r, c) {
   gameover = true;
   let winner = document.getElementById("winner");
+
+  // Create a new Audio object
+  let audio = new Audio("sounds/winner.wav");
+
   if (board[r][c] === playerRed) {
     playerRedScore++;
     document.getElementById("playerRedScore").innerHTML =
@@ -148,4 +173,23 @@ function setWinner(r, c) {
       "Player Yellow Score: " + playerYellowScore;
     winner.innerHTML = "Yellow Wins";
   }
+
+  // Play the audio
+  audio.play();
+}
+
+function replayGame() {
+  // Reset the game variables
+  currentPlayer = playerRed;
+  gameover = false;
+  board = [];
+  currColumns = [5, 5, 5, 5, 5, 5, 5];
+
+  let tiles = document.getElementsByClassName("tile");
+  for (let i = 0; i < tiles.length; i++) {
+    tiles[i].style.backgroundColor = "";
+  }
+
+  // Reinitialize the game board
+  setGame();
 }
