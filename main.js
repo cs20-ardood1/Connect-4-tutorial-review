@@ -1,5 +1,4 @@
 // GLOBAL VARIABLES
-
 let playerRed = "R";
 let playerYellow = "Y";
 let currentPlayer = playerRed;
@@ -24,15 +23,26 @@ function setGame() {
     for (let c = 0; c < columns; c++) {
       row.push(" ");
       // div
-      let tile = document.createElement("div");
-      tile.id = r.toString() + "-" + c.toString();
-      tile.classList.add("tile");
-      tile.addEventListener("click", setPiece);
-      //append the div within the html instead of doing it manually 42 times
-      document.getElementById("board").append(tile);
+      let tile = document.getElementById(r.toString() + "-" + c.toString());
+      if (!tile) {
+        tile = document.createElement("div");
+        tile.id = r.toString() + "-" + c.toString();
+        tile.classList.add("tile");
+        tile.addEventListener("click", setPiece);
+        //append the div within the html instead of doing it manually 42 times
+        document.getElementById("board").append(tile);
+      } else {
+        tile.style.backgroundColor = "";
+      }
     }
     board.push(row);
   }
+}
+
+function replayGame() {
+  gameover = false;
+  currentPlayer = playerRed;
+  setGame();
 }
 
 function setPiece() {
@@ -53,6 +63,9 @@ function setPiece() {
   if (playerRedColor === playerYellowColor) {
     //Pieces cant be the same color
     alert("The pieces can't have the same color");
+    document.getElementById("playerRedColor").value = "#FF0000";
+    document.getElementById("playerYellowColor").value = "#FFFF00";
+    return;
   }
 
   board[r][c] = currentPlayer;
